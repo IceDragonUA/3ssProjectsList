@@ -1,5 +1,20 @@
 <resources>
     <string name="app_name">JSON</string>
-    <string name="action_settings">Exit</string>
+
     <string name="project_logo">Project Logo</string>
+
+    <string name="logo">Logo</string>
+
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="technologies">Technologies</string>
+    <string name="supportedScreens">Supported screens</string>
+    <string name="solutionTypes">Solution types</string>
+    <string name="clientName">Client name</string>
+
+    <string name="leftBtn">LEFT</string>
+    <string name="rightBtn">RIGHT</string>
+
+    <string name="backBtn">Back</string>
+
 </resources>

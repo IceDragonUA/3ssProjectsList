@@ -34,7 +34,8 @@ public class JSONParser {
 
             resultJson = buffer.toString();
             objJson = new JSONObject(resultJson);
-        } catch (Exception e)        {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return objJson;

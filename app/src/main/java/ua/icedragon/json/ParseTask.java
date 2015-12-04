@@ -4,15 +4,11 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 class ParseTask extends AsyncTask<String, String, JSONObject[]> {
-
-    private final int CLIENTS = 1;
-    private final int PROJECTS = 0;
 
     private ProgressDialog progressDialog;
 
@@ -37,11 +33,11 @@ class ParseTask extends AsyncTask<String, String, JSONObject[]> {
 
     @Override
     protected JSONObject[] doInBackground(String... urls) {
-        int JSON_PAGES_COUNT = 2;
         JSONParser jParser = new JSONParser();
-        JSONObject[] jsonObjects = new JSONObject[JSON_PAGES_COUNT];
-        jsonObjects[PROJECTS] = jParser.getJSONFromUrl(urls[PROJECTS]);
-        jsonObjects[CLIENTS] = jParser.getJSONFromUrl(urls[CLIENTS]);
+        JSONObject[] jsonObjects = new JSONObject[urls.length];
+        for (int i = 0; i < urls.length; i++){
+            jsonObjects[i] = jParser.getJSONFromUrl(urls[i]);
+        }
         return jsonObjects;
     }
 
@@ -49,8 +45,8 @@ class ParseTask extends AsyncTask<String, String, JSONObject[]> {
     protected void onPostExecute(JSONObject[] jsonObjects) {
 
         try {
-            JSONArray projects = jsonObjects[PROJECTS].getJSONArray("projects");
-            JSONArray clients = jsonObjects[CLIENTS].getJSONArray("clients");
+            JSONArray projects = jsonObjects[0].getJSONArray("projects");
+            JSONArray clients = jsonObjects[1].getJSONArray("clients");
 
             String[] clientName = new String[projects.length()];
             String[] projectName = new String[projects.length()];
@@ -93,21 +89,21 @@ class ParseTask extends AsyncTask<String, String, JSONObject[]> {
                 projectId[i] = project.getString("id");
                 projectAssetsUrl[i] = "http://91.250.82.77:8081/3ssdemo/prj/json/galleryAssets.php?projectId=" + projectId[i];
 
-                info.processFinish(
-                        projectName,
-                        projectImageUrl,
-                        projectDescription,
-                        projectTechnologies,
-                        projectSupportedScreens,
-                        projectSolutionTypes,
-                        clientName,
-                        projectAssetsUrl,
-                        projects.length()
-                );
-
-                progressDialog.dismiss();
-
             }
+
+            info.processFinish(
+                    projectName,
+                    projectImageUrl,
+                    projectDescription,
+                    projectTechnologies,
+                    projectSupportedScreens,
+                    projectSolutionTypes,
+                    clientName,
+                    projectAssetsUrl,
+                    projects.length()
+            );
+
+            progressDialog.dismiss();
 
         } catch (JSONException e) {
             e.printStackTrace();
